@@ -1,0 +1,3 @@
+gmx editconf -f box.gro -box 10 10 10 -o box.gro
+gmx insert-molecules -f box.gro -nmol 59 -ci butane/butane.gro -o box.gro
+gmx insert-molecules -f box.gro -nmol 180 -ci okm/okm.gro -o box.gro

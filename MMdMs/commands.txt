@@ -1,0 +1,10 @@
+
+gmx pdb2gmx -f mW.pdb -o water.gro
+gmx editconf -f mW.pdb -box 4 4 4 -o box.gro
+
+gmx insert-molecules -f box.gro -ci add.gro -nmol 10 -p topol.top
+
+gmx grompp -p config.top -c butanol_box.gro -f params.mdp
+gmx mdrun -v
+
+gmx trjconv traj_comp.xtc -o trajout.xtc -pbc mol

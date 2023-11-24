@@ -1,0 +1,19 @@
+; Include water topology
+#include "met.top"
+#include "oplsaa.ff/tip4pew.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+
+[ system ]
+METHANE+SOL
+
+[ molecules ]
+; Compound        #mols
+SOL                 80
+Other               100

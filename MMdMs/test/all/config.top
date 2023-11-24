@@ -1,0 +1,12 @@
+#include "oplsaa.ff/forcefield.itp"
+
+#include "butanol_lib.itp"
+
+#include "oplsaa.ff/tip4p.itp"
+
+[ system ]
+all
+
+[ molecules ]
+SOL	100
+LIG 100
