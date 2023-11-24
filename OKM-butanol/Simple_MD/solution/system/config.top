@@ -1,6 +1,7 @@
 #include "oplsaa.ff/forcefield.itp"
 
-#include "butanol_lib.itp"
+#include "butanol_spec.itp"
+#include "okm_spec.itp"
 
 #include "oplsaa.ff/tip4p.itp"
 
@@ -8,5 +9,5 @@
 all
 
 [ molecules ]
-SOL	100
-LIG 100
+URE	60
+URJ 180

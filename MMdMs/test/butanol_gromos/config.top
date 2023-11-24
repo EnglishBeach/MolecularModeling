@@ -1,8 +1,0 @@
-#include "gromos54a7.ff/forcefield.itp"
-#include "butanol.itp"
-
-[ system ]
-BUTANOL
-
-[ molecules ]
-53GR 5

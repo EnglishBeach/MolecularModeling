@@ -1,8 +1,0 @@
-#include "oplsaa.ff/forcefield.itp"
-#include "oplsaa.ff/tip4p.itp"
-
-[ system ]
-test
-
-[ molecules ]
-SOL	1728
