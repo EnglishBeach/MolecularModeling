@@ -17,33 +17,36 @@ But in the future, this list will be increased.
 
  1. Install GROMACS and VMD.
 Install GROMACS:
+
 https://manual.gromacs.org/documentation/current/install-guide/index.html
+
 Install VMD:
+
 https://mejk.github.io/moldy/chapters/visualization/vmd-install.html
 
 
  2. Get a pdb file or generate .gro .itp files for molecules on web resources (Charmm-GUI, ATB, etc.). Keep attention to forcefield names.
 
- 3. Generate a box from a pdb or .gro file:
-    ```gmx pdb2gmx -f butane.pdb -o butane.gro```
-Change box size:
-    ```gmx editconf -f butane.gro -box 4 4 4 -o butane.gro```
+ 3. Generate a box from a pdb or .gro file: `gmx pdb2gmx -f butane.pdb -o butane.gro`
 
- 4. Create a .top file.
+Change box size: `gmx editconf -f butane.gro -box 4 4 4 -o butane.gro`
+    
+ 5. Create a .top file.
  It has restrictions: see documentation to do it correctly. This file is the box description (parameters, atomtypes and so on)
 
- 5. Insert molecules into 1 box and correct the .top file by hand:
-    ```gmx insert-molecules -f box.gro -ci butane.gro -nmol 10 -p config.top```
+ 6. Insert molecules into 1 box and correct the .top file by hand: `gmx insert-molecules -f box.gro -ci butane.gro -nmol 10 -p config.top`
 
-
- 6. Compile the simulation and run it.
+ 8. Compile the simulation and run it.
 Run it from the fully prepared system directory.
-    ```gmx grompp -p config.top -c box.gro -f params.mdp```
-    ```gmx mdrun -v``
+    ```
+    gmx grompp -p config.top -c box.gro -f params.mdp
+    gmx mdrun -v`
+    `````
+    
 After waiting, you will have a trajectory file, but you need to correct it.
 
- 7. Correcting:
-    ```gmx trjconv traj_comp.xtc -o trajout.xtc -pbc mol``
+ 10. Correcting:
+    `gmx trjconv traj_comp.xtc -o trajout.xtc -pbc mol`
 
 # In process
  * Using python for simplifying solutions and preparations
