@@ -11,6 +11,9 @@ https://github.com/EnglishBeach/Diplom-work
  * Using ATB to generate .itp and .gro files of moleculas
 
 
+•	Using GROMACS for molecular dynamic simulations to
+calculate the dependece of diffusion coefficient from temperature and состав. Improving the prediction force of diffusion-kinetic model
+
 # Simulating
 Right now, there is only one type of simulation: OKM-butanol\Simple_MD.
 But in the future, this list will be increased.
@@ -30,7 +33,7 @@ https://mejk.github.io/moldy/chapters/visualization/vmd-install.html
  3. Generate a box from a pdb or .gro file: `gmx pdb2gmx -f butane.pdb -o butane.gro`
 
 Change box size: `gmx editconf -f butane.gro -box 4 4 4 -o butane.gro`
-    
+
  5. Create a .top file.
  It has restrictions: see documentation to do it correctly. This file is the box description (parameters, atomtypes and so on)
 
@@ -42,7 +45,7 @@ Run it from the fully prepared system directory.
     gmx grompp -p config.top -c box.gro -f params.mdp
     gmx mdrun -v`
     `````
-    
+
 After waiting, you will have a trajectory file, but you need to correct it.
 
  10. Correcting:
