@@ -72,25 +72,25 @@
 
 [ moleculetype ]
 ; Name               nrexcl
-URE                   3
+BUT                   3
 
 [ atoms ]
 ;   nr       type  resnr residue  atom   cgnr     charge       mass
-     1   opls_852      1    URE   C00      1    -0.2387    12.0110
-     2   opls_853      1    URE   C01      1    -0.1750    12.0110
-     3   opls_851      1    URE   C02      1    -0.2250    12.0110
-     4   opls_856      1    URE   C03      1     0.0093    12.0110
-     5   opls_863      1    URE   O04      1    -0.5879    15.9990
-     6   opls_861      1    URE   H05      1     0.0828     1.0080
-     7   opls_855      1    URE   H06      1     0.0828     1.0080
-     8   opls_854      1    URE   H07      1     0.0828     1.0080
-     9   opls_862      1    URE   H08      1     0.0900     1.0080
-    10   opls_859      1    URE   H09      1     0.0900     1.0080
-    11   opls_850      1    URE   H0A      1     0.0968     1.0080
-    12   opls_864      1    URE   H0B      1     0.0968     1.0080
-    13   opls_858      1    URE   H0C      1     0.0949     1.0080
-    14   opls_860      1    URE   H0D      1     0.0949     1.0080
-    15   opls_857      1    URE   H0E      1     0.4056     1.0080
+     1   opls_852      1    BUT   C00      1    -0.2387    12.0110
+     2   opls_853      1    BUT   C01      1    -0.1750    12.0110
+     3   opls_851      1    BUT   C02      1    -0.2250    12.0110
+     4   opls_856      1    BUT   C03      1     0.0093    12.0110
+     5   opls_863      1    BUT   O04      1    -0.5879    15.9990
+     6   opls_861      1    BUT   H05      1     0.0828     1.0080
+     7   opls_855      1    BUT   H06      1     0.0828     1.0080
+     8   opls_854      1    BUT   H07      1     0.0828     1.0080
+     9   opls_862      1    BUT   H08      1     0.0900     1.0080
+    10   opls_859      1    BUT   H09      1     0.0900     1.0080
+    11   opls_850      1    BUT   H0A      1     0.0968     1.0080
+    12   opls_864      1    BUT   H0B      1     0.0968     1.0080
+    13   opls_858      1    BUT   H0C      1     0.0949     1.0080
+    14   opls_860      1    BUT   H0D      1     0.0949     1.0080
+    15   opls_857      1    BUT   H0E      1     0.4056     1.0080
 
 [ bonds ]
     2     1     1      0.1529 224262.400

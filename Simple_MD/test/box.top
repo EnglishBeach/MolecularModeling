@@ -1,0 +1,9 @@
+#include "oplsaa.ff/forcefield.itp"
+
+#include "butanol.itp"
+
+[ system ]
+but
+
+[ molecules ]
+BUT	1
