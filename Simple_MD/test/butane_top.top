@@ -1,0 +1,11 @@
+#include "oplsaa.ff/forcefield.itp"
+
+#include "butanol_spec.itp"
+#include "oplsaa.ff/tip4p.itp"
+
+[ system ]
+but
+
+[ molecules ]
+URE	60
+URJ 180

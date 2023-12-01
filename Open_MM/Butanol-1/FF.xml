@@ -16,39 +16,6 @@
 <Type name="opls_802" class="C802" element="C" mass="12.011000" />
 <Type name="opls_805" class="H805" element="H" mass="1.008000" />
 </AtomTypes>
-<Residues>
-<Residue name="UNK">
-<Atom name="C00" type="opls_800" />
-<Atom name="C01" type="opls_801" />
-<Atom name="C02" type="opls_802" />
-<Atom name="C03" type="opls_803" />
-<Atom name="O04" type="opls_804" />
-<Atom name="H05" type="opls_805" />
-<Atom name="H06" type="opls_806" />
-<Atom name="H07" type="opls_807" />
-<Atom name="H08" type="opls_808" />
-<Atom name="H09" type="opls_809" />
-<Atom name="H0A" type="opls_810" />
-<Atom name="H0B" type="opls_811" />
-<Atom name="H0C" type="opls_812" />
-<Atom name="H0D" type="opls_813" />
-<Atom name="H0E" type="opls_814" />
-<Bond from="0" to="1"/>
-<Bond from="1" to="2"/>
-<Bond from="2" to="3"/>
-<Bond from="3" to="4"/>
-<Bond from="0" to="5"/>
-<Bond from="0" to="6"/>
-<Bond from="0" to="7"/>
-<Bond from="1" to="8"/>
-<Bond from="1" to="9"/>
-<Bond from="2" to="10"/>
-<Bond from="2" to="11"/>
-<Bond from="3" to="12"/>
-<Bond from="3" to="13"/>
-<Bond from="4" to="14"/>
-</Residue>
-</Residues>
 <HarmonicBondForce>
 <Bond class1="C801" class2="C800" length="0.152900" k="224262.400000"/>
 <Bond class1="C802" class2="C801" length="0.152900" k="224262.400000"/>
