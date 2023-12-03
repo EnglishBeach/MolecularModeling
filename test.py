@@ -20,4 +20,8 @@ a.foo
 a.goo
 simulation=1
 simulation.context.getState
-j
+j={}
+j.items()
+
+def h(j: dict={}):
+    j.items()
