@@ -14,6 +14,14 @@ https://github.com/EnglishBeach/Diplom-work
 •	Using GROMACS for molecular dynamic simulations to
 calculate the dependece of diffusion coefficient from temperature and состав. Improving the prediction force of diffusion-kinetic model
 
+# Installation openff and nglview
+ 0. Install mamba and use how packet manager
+ 1. Install python==3.10.x (3.10.13 lastest)
+ 2. Install ipywidgets==7.7.x (7.7.2 for me), because 8.x.x has some fixes conflicting with nglview. So nglview sometimes doesn't show js widget
+ 3. Install nglview from bioconda channel
+ 4. Install openff toolkits and so on
+
+
 # Simulating
 Right now, there is only one type of simulation: OKM-butanol\Simple_MD.
 But in the future, this list will be increased.
@@ -50,6 +58,7 @@ After waiting, you will have a trajectory file, but you need to correct it.
 
  10. Correcting:
     `gmx trjconv traj_comp.xtc -o trajout.xtc -pbc mol`
+
 
 # In process
  * Using python for simplifying solutions and preparations
