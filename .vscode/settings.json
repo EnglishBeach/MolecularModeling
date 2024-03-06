@@ -1,3 +1,29 @@
 {
-    "python.formatting.provider": "yapf"
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "sklearn",
+            "depth": 1
+        },
+        {
+            "name": "matplotlib",
+            "depth": 1
+        },
+        {
+            "name": "scipy",
+            "depth": 1
+        },
+        {
+            "name": "django",
+            "depth": 1
+        },
+        {
+            "name": "flask",
+            "depth": 1
+        },
+        {
+            "name": "fastapi",
+            "depth": 1
+        }
+    ],
+    "python.analysis.userFileIndexingLimit": 10
 }
