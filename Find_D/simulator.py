@@ -84,19 +84,17 @@ class Box:
     ff = toolkit.ForceField("openff_unconstrained-2.1.0.offxml")
 
     def __init__(self, x, rho, substance: MolNames):
-        self.solvent_n = int(x)
-        self.substance_n = int((100 - x))
-        self.substance = substance
+        self.solvent_n: int = int(x)
+        self.substance_n: int = int((100 - x))
+        self.substance: MolNames = substance
         self.rho = rho
 
     def __repr__(self) -> str:
-        return (
-            f"<Box: {self.substance}= {self.substance_n} ({self.solvent_n}), rho={self.rho} mg/cm3>"
-        )
+        return f"<Box: {self.substance.name}= {self.substance_n} ({self.solvent_n}), rho={self.rho} mg/cm3>"
 
     def pack(self, tol=0.5):
         solvent = OFF_MOLECULES[MolNames.butanol]
-        substance = OFF_MOLECULES[self.substance]
+        substance = OFF_MOLECULES[MolNames(self.substance)]
         if self.substance_n == 0:
             molecules = [solvent]
             n_molecules = [100]
@@ -128,7 +126,7 @@ class Box:
             box_j = self.box.to_json()
             data = {
                 "solvent_n": self.solvent_n,
-                "substance": self.substance,
+                "substance": self.substance.value,
                 "rho": self.rho,
             }
             box_j = f"{data} ###" + box_j
@@ -143,7 +141,7 @@ class Box:
             box = Box(
                 x=int(data["solvent_n"]),
                 rho=data["rho"],
-                substance=data["substance"],
+                substance=MolNames(data["substance"]),
             )
             box.box = toolkit.Topology.from_json(box_j)
 
@@ -226,8 +224,8 @@ def create_simulation(
     box: Box,
     dt=1,
     T=25,
+    boxes_path: Path = Path('.'),
     check_freq=100,
-    save_dir: Path = Path("simulations"),
 ):
 
     # Integration options
@@ -236,27 +234,19 @@ def create_simulation(
     friction = 1 / openmm.unit.picosecond  # friction constant
 
     integrator = openmm.LangevinIntegrator(temperature, friction, dt)
-    simulation = box.box_parametrized.to_openmm_simulation(
-        integrator=integrator,
-        # platform=openmm.Platform.getPlatformByName('CUDA'),
-    )
-    # simulation.context.setVelocitiesToTemperature(temperature)
-    substance = box.substance
-    x = box.substance_n
-    rho = box.rho
+    simulation = box.box_parametrized.to_openmm_simulation(integrator=integrator)
 
-    sim_dir = save_dir / Path(f"box_{substance}_{x}_{rho}")
-    sim_dir.mkdir(parents=True, exist_ok=True)
-    box.box_parametrized.to_pdb(f"{sim_dir}/box_min.pdb")
-
-    equilibration = tqdm(iterable=range(10))
+    equilibration = tqdm(iterable=range(50))
     equilibration.set_description_str('Equilibration')
     simulation.minimizeEnergy()
     simulation.context.setVelocitiesToTemperature(temperature)
     simulation.context.reinitialize(preserveState=True)
-
     for i in equilibration:
-        simulation.step(check_freq)
+        simulation.step(1000)
+
+    box.box_parametrized.to_pdb(
+        f"{boxes_path}/box_{box.substance.name}_{box.solvent_n}_{box.rho}.pdb",
+    )
 
     msdReporter = MSDReporter(check_freq, simulation, dt)
     simulation.reporters.append(msdReporter)
