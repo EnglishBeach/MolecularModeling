@@ -242,7 +242,7 @@ def create_simulation(
     simulation.context.setVelocitiesToTemperature(temperature)
     simulation.context.reinitialize(preserveState=True)
     for i in equilibration:
-        simulation.step(1000)
+        simulation.step(100)
 
     box.box_parametrized.to_pdb(
         f"{boxes_path}/box_{box.substance.name}_{box.solvent_n}_{box.rho}.pdb",
