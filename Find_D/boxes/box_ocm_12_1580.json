@@ -16,7 +16,7 @@
     "box_vectors_unit": "nanometer",
     "molecules": [
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -370,7 +370,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -724,7 +724,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1078,7 +1078,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1432,7 +1432,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1786,7 +1786,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2140,7 +2140,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2494,7 +2494,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2848,7 +2848,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3202,7 +3202,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3556,7 +3556,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3910,7 +3910,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,

@@ -1,4 +1,4 @@
-{'solvent_n': 49, 'substance': "pet", 'rho': 1110
+{'solvent_n': 49, 'substance': "PET", 'rho': 1110
 } ###{
     "aromaticity_model": "OEAroModel_MDL",
     "constrained_atom_pairs": {},
@@ -16,7 +16,7 @@
     "box_vectors_unit": "nanometer",
     "molecules": [
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -370,7 +370,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -724,7 +724,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1078,7 +1078,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1432,7 +1432,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -1786,7 +1786,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2140,7 +2140,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2494,7 +2494,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -2848,7 +2848,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3202,7 +3202,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3556,7 +3556,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -3910,7 +3910,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -4264,7 +4264,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -4618,7 +4618,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -4972,7 +4972,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -5326,7 +5326,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -5680,7 +5680,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -6034,7 +6034,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -6388,7 +6388,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -6742,7 +6742,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -7096,7 +7096,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -7450,7 +7450,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -7804,7 +7804,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -8158,7 +8158,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -8512,7 +8512,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -8866,7 +8866,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -9220,7 +9220,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -9574,7 +9574,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -9928,7 +9928,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -10282,7 +10282,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -10636,7 +10636,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -10990,7 +10990,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -11344,7 +11344,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -11698,7 +11698,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -12052,7 +12052,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -12406,7 +12406,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -12760,7 +12760,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -13114,7 +13114,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -13468,7 +13468,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -13822,7 +13822,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -14176,7 +14176,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -14530,7 +14530,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -14884,7 +14884,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -15238,7 +15238,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -15592,7 +15592,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -15946,7 +15946,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -16300,7 +16300,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -16654,7 +16654,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -17008,7 +17008,7 @@
             }
         },
         {
-            "name": "<MolNames.butanol: 'but'>",
+            "name": "BUT",
             "atoms": [
                 {
                     "atomic_number": 8,
@@ -17362,7 +17362,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -18244,7 +18244,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -19126,7 +19126,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -20008,7 +20008,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -20890,7 +20890,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -21772,7 +21772,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -22654,7 +22654,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -23536,7 +23536,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -24418,7 +24418,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -25300,7 +25300,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -26182,7 +26182,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -27064,7 +27064,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -27946,7 +27946,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -28828,7 +28828,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -29710,7 +29710,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -30592,7 +30592,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -31474,7 +31474,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -32356,7 +32356,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -33238,7 +33238,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -34120,7 +34120,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -35002,7 +35002,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -35884,7 +35884,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -36766,7 +36766,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -37648,7 +37648,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -38530,7 +38530,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -39412,7 +39412,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -40294,7 +40294,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -41176,7 +41176,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -42058,7 +42058,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -42940,7 +42940,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -43822,7 +43822,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -44704,7 +44704,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -45586,7 +45586,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -46468,7 +46468,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -47350,7 +47350,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -48232,7 +48232,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -49114,7 +49114,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -49996,7 +49996,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -50878,7 +50878,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -51760,7 +51760,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -52642,7 +52642,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -53524,7 +53524,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -54406,7 +54406,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -55288,7 +55288,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -56170,7 +56170,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -57052,7 +57052,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -57934,7 +57934,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -58816,7 +58816,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -59698,7 +59698,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -60580,7 +60580,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
@@ -61462,7 +61462,7 @@
             }
         },
         {
-            "name": "<MolNames.peta: 'pet'>",
+            "name": "PET",
             "atoms": [
                 {
                     "atomic_number": 6,
