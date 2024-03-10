@@ -78,4 +78,5 @@ class Box:
         return box
 
     def create_system(self):
+        self.box_parametrized.to_openmm_topology()
         return self.box_parametrized.to_openmm_system()

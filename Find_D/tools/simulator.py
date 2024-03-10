@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import openmm
+import openmm.app as openmm_app
 import pandas as pd
 from tqdm import tqdm as _tqdm
 
@@ -87,38 +88,71 @@ class MSDReporter:
 
 
 def create_simulation(
-    box: Box,
+    system_path: Path,
+    topology_path: Path,
+    result_dir: Path,
     dt=1,
     T=25,
-    boxes_path: Path = Path('.'),
     check_freq=1000,
 ):
-
-    # Integration options
     fs = openmm.unit.femtoseconds
+
     dt = dt * fs
     temperature = (T + 273) * openmm.unit.kelvin
     friction = 1 / openmm.unit.picosecond
 
-    integrator = openmm.LangevinIntegrator(temperature, friction, dt)
-    simulation = box.box_parametrized.to_openmm_simulation(integrator=integrator)
+    topology = openmm_app.PDBFile(topology_path)
 
-    equilibration = _tqdm(iterable=range(5))
-    equilibration.set_description_str('Equilibration')
+    with open(system_path, 'w') as system_file:
+        system: openmm.System = openmm.XmlSerializer.deserialize(system_file.read())
+    # ADD forces
+    system.addForce(openmm.CMMotionRemover())
+
+    integrator = openmm.LangevinIntegrator(temperature, friction, dt)
+
+    platform = openmm.Platform.getPlatformByName('CUDA')
+    platformProperties = {'Precision': 'single'}
+    platformProperties["DeviceIndex"] = "0"
+
+    simulation = openmm_app.Simulation(
+        topology=topology,
+        system=system,
+        integrator=integrator,
+        platform=platform,
+        platformProperties=platformProperties,
+    )
+
+    equilibration_stage = _tqdm(iterable=range(1))
+    equilibration_stage.set_description_str('Equilibration')
     simulation.minimizeEnergy()
     simulation.context.setVelocitiesToTemperature(temperature)
     simulation.context.reinitialize(preserveState=True)
-    for i in equilibration:
+    for i in equilibration_stage:
         simulation.step(1000)
 
-    box.box_parametrized.to_pdb(
-        boxes_path / Path(f"box_{box.substance.name}_{box.solvent_n}_{box.rho}.pdb"),
-    )
-
+    simulation.currentStep = 0
+    simulation.context.setVelocitiesToTemperature(temperature)
     msdReporter = MSDReporter(check_freq, simulation, dt)
     simulation.reporters.append(msdReporter)
-    simulation.currentStep = 0
     return simulation, msdReporter
+
+
+def simulate(system_path: Path, topology_path: Path, result_dir: Path, T):
+    print('#' * 30, f'Temperature: {T:2} C')
+    simulation, reporter = create_simulation(
+        system_path=system_path,
+        topology_path=topology_path,
+        result_dir=result_dir,
+        dt=1,
+        check_freq=1000,
+        T=T,
+    )
+    product_cycle = _tqdm(iterable=range(10))
+    product_cycle.set_description_str('Product      ')
+    for i in product_cycle:
+        simulation.step(1000)
+    print()
+    return reporter
 
 
 def solve_D(T, box, result_dir: Path):
