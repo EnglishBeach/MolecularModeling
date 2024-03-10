@@ -1,19 +1,21 @@
 import sys
 
+import tools.boxer
+
 sys.path.insert(0, 'Find_D')
 
 import os
 from pathlib import Path
 
 import pandas as pd
-import simulator
+import Find_D.tools.simulator as simulator
 
 
 def loop():
     for box_file in os.listdir('./Find_D/boxes'):
         box_file = Path(box_file)
         result_dir = Path(f"./Find_D/results/{box_file.stem}")
-        box = simulator.Box.load(f"./Find_D/boxes/{box_file.name}")
+        box = tools.boxer.Box.load(f"./Find_D/boxes/{box_file.name}")
         print(
             '#' * 20,
             f'{box.substance.name:10} but: {box.solvent_n:<3} | sub: {box.substance_n:<3}',
@@ -42,7 +44,7 @@ def post_loop():
             continue
 
         result_dir = Path(f"./Find_D/results/{box_file.stem}")
-        box = simulator.Box.load(f"./Find_D/boxes/{box_file.name}")
+        box = tools.boxer.Box.load(f"./Find_D/boxes/{box_file.name}")
         print(
             '#' * 20,
             f'{box.substance.name:10} but: {box.solvent_n:<3} | sub: {box.substance_n:<3}',

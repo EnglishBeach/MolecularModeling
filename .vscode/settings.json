@@ -6,7 +6,7 @@
         },
         {
             "name": "matplotlib",
-            "depth": 2
+            "depth": 10
         },
         {
             "name": "scipy",
@@ -25,5 +25,5 @@
             "depth": 2
         }
     ],
-    "python.analysis.userFileIndexingLimit": 2
+    "python.analysis.userFileIndexingLimit": 10
 }
