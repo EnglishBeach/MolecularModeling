@@ -137,7 +137,14 @@ def create_simulation(
     return simulation, msdReporter
 
 
-def simulate(system_path: Path, topology_path: Path, result_dir: Path, T):
+def simulate(
+    T: int,
+    work_path: Path,
+    result_dir: Path = Path('.'),
+):
+    system_path = work_path / Path('system.xml')
+    topology_path = work_path / Path('top.pdb')
+
     print('#' * 30, f'Temperature: {T:2} C')
     simulation, reporter = create_simulation(
         system_path=system_path,
@@ -153,18 +160,3 @@ def simulate(system_path: Path, topology_path: Path, result_dir: Path, T):
         simulation.step(1000)
     print()
     return reporter
-
-
-def solve_D(T, box, result_dir: Path):
-    simulation, reporter = create_simulation(
-        box=box,
-        T=T,
-        boxes_path=result_dir,
-    )
-    product_cycle = _tqdm(iterable=range(500))
-    product_cycle.set_description_str('Product      ')
-    for i in product_cycle:
-        simulation.step(1000)
-
-    df: pd.DataFrame = reporter.df
-    df.to_csv(f'{result_dir}/{T}.csv')
