@@ -2,28 +2,28 @@
     "python.analysis.packageIndexDepths": [
         {
             "name": "sklearn",
-            "depth": 1
+            "depth": 2
         },
         {
             "name": "matplotlib",
-            "depth": 1
+            "depth": 2
         },
         {
             "name": "scipy",
-            "depth": 1
+            "depth": 2
         },
         {
             "name": "django",
-            "depth": 1
+            "depth": 2
         },
         {
             "name": "flask",
-            "depth": 1
+            "depth": 2
         },
         {
             "name": "fastapi",
-            "depth": 1
+            "depth": 2
         }
     ],
-    "python.analysis.userFileIndexingLimit": 10
+    "python.analysis.userFileIndexingLimit": 2
 }

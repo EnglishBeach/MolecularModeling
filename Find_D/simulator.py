@@ -1,26 +1,25 @@
-import io
+import enum
 import warnings
-from enum import Enum
+from pathlib import Path
 
 import numpy as np
+import openff
+import openmm
 import pandas as pd
+from openff import toolkit, units, interchange
+from openff.interchange.components import _packmol as packmol
 from rdkit import Chem
+from tqdm import tqdm as _tqdm
 
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
 
-with io.capture_output() as captured:
-    import openmm
-    from openff import interchange, toolkit
-    from openff.interchange.components._packmol import UNIT_CUBE, pack_box
-    from openff.units import unit
 
-
-class MolNames(Enum):
-    butanol = 'but'
-    ocm = 'ocm'
-    dmag = 'dmg'
-    peta = 'pet'
+class MolNames(enum.Enum):
+    butanol = 'BUT'
+    ocm = 'OCM'
+    dmag = 'DMA'
+    peta = 'PET'
 
 
 RD_MOLECULES = {
@@ -35,14 +34,45 @@ for molecule_type, rdkit_mol in RD_MOLECULES.items():
     mol = toolkit.Molecule.from_rdkit(rdkit_mol)
     OFF_MOLECULES[molecule_type] = mol
     mol.generate_conformers(n_conformers=1)
-    mol.name = molecule_type.name
+    mol.name = molecule_type.value
 
     for atom in mol.atoms:
-        atom.metadata["residue_name"] = molecule_type.name.upper()
+        atom.metadata["residue_name"] = molecule_type.value
     mol.add_hierarchy_scheme(
         iterator_name="residue",
         uniqueness_criteria=["residue_name"],
     )
+
+DATAS = {
+    MolNames.butanol: [
+        (100, 700),
+    ],
+    MolNames.dmag: [
+        (0, 1069),
+        (11, 1069),
+        (22, 1050),
+        (35, 1029),
+        (39, 1019),
+    ],
+    MolNames.ocm: [
+        (0, 1720),
+        (12, 1580),
+        (22, 1569),
+        (31, 1550),
+        (38, 1539),
+        (44, 1530),
+        (49, 1510),
+        (54, 1489),
+        (58, 1490),
+    ],
+    MolNames.peta: [
+        (0, 1200),
+        (19, 1180),
+        (30, 1159),
+        (41, 1140),
+        (49, 1110),
+    ],
+}
 
 
 class Box:
@@ -70,12 +100,15 @@ class Box:
         else:
             molecules = [solvent, substance]
             n_molecules = [self.solvent_n, self.substance_n]
-        self.box = pack_box(
+        kg = units.unit.kilogram
+        m = units.unit.meter
+        A = units.unit.angstrom
+        self.box = packmol.pack_box(
             molecules=molecules,
             number_of_copies=n_molecules,
-            mass_density=self.rho * unit.kilogram / unit.meter**3,
-            tolerance=tol * unit.angstrom,
-            box_shape=UNIT_CUBE,
+            mass_density=self.rho * kg / m**3,
+            tolerance=tol * A,
+            box_shape=packmol.UNIT_CUBE,
         )
 
     def parametrize(self):
@@ -107,7 +140,7 @@ class Box:
             box = Box(
                 x=int(data["solvent_n"]),
                 rho=data["rho"],
-                substance=MolNames(data["substance"]),
+                substance=MolNames(data["substance"][:3].upper()),
             )
             box.box = toolkit.Topology.from_json(box_j)
 
@@ -184,3 +217,53 @@ class MSDReporter:
     @property
     def df(self):
         return pd.DataFrame(self.data)
+
+
+def create_simulation(
+    box: Box,
+    dt=1,
+    T=25,
+    boxes_path: Path = Path('.'),
+    check_freq=1000,
+):
+
+    # Integration options
+    fs = openmm.unit.femtoseconds
+    dt = dt * fs
+    temperature = (T + 273) * openmm.unit.kelvin
+    friction = 1 / openmm.unit.picosecond
+
+    integrator = openmm.LangevinIntegrator(temperature, friction, dt)
+    simulation = box.box_parametrized.to_openmm_simulation(integrator=integrator)
+
+    equilibration = _tqdm(iterable=range(5))
+    equilibration.set_description_str('Equilibration')
+    simulation.minimizeEnergy()
+    simulation.context.setVelocitiesToTemperature(temperature)
+    simulation.context.reinitialize(preserveState=True)
+    for i in equilibration:
+        simulation.step(1000)
+
+    box.box_parametrized.to_pdb(
+        boxes_path / Path(f"box_{box.substance.name}_{box.solvent_n}_{box.rho}.pdb"),
+    )
+
+    msdReporter = MSDReporter(check_freq, simulation, dt)
+    simulation.reporters.append(msdReporter)
+    simulation.currentStep = 0
+    return simulation, msdReporter
+
+
+def solve_D(T, box, result_dir: Path):
+    simulation, reporter = create_simulation(
+        box=box,
+        T=T,
+        boxes_path=result_dir,
+    )
+    product_cycle = _tqdm(iterable=range(500))
+    product_cycle.set_description_str('Product      ')
+    for i in product_cycle:
+        simulation.step(1000)
+
+    df: pd.DataFrame = reporter.df
+    df.to_csv(f'{result_dir}/{T}.csv')
