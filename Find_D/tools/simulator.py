@@ -6,6 +6,7 @@ import openmm
 import openmm.app as openmm_app
 import pandas as pd
 from tqdm import tqdm as _tqdm
+from typing_extensions import Unpack
 
 from .base import MolNames
 from .boxer import Box
@@ -16,12 +17,7 @@ warnings.simplefilter("ignore")
 
 class MSDReporter:
 
-    def __init__(
-        self,
-        interval: float,
-        simulation,
-        dt: float,
-    ):
+    def __init__(self, interval: float, simulation, dt: float):
         self.interval = interval
 
         self.dt = dt.value_in_unit(openmm.unit.second)
@@ -48,28 +44,18 @@ class MSDReporter:
             self.data.update({residue_name: np.array([])})
 
     @staticmethod
-    def is_selected(
-        atom,
-        residue: str,
-    ):
+    def is_selected(atom, residue: str):
         selected_atoms = [openmm.app.Element.getBySymbol(symbol) for symbol in ['O', 'C', 'N']]
 
         select_residue = atom.residue.name == residue
         select_atom = atom.element in selected_atoms
         return select_residue and select_atom
 
-    def describeNextReport(
-        self,
-        simulation,
-    ):
+    def describeNextReport(self, simulation):
         steps = self.interval - simulation.currentStep % self.interval
         return (steps, True, False, False, False, False)
 
-    def report(
-        self,
-        simulation,
-        state,
-    ):
+    def report(self, simulation, state):
         for residue in self.residues:
             atom_ids = self.atom_map[residue]
             positions = state.getPositions(asNumpy=True).value_in_unit(openmm.unit.centimeter)[
@@ -87,76 +73,65 @@ class MSDReporter:
         return pd.DataFrame(self.data)
 
 
-def create_simulation(
-    system_path: Path,
-    topology_path: Path,
-    result_dir: Path,
-    dt=1,
-    T=25,
-    check_freq=1000,
-):
-    fs = openmm.unit.femtoseconds
+class Simulation:
 
-    dt = dt * fs
-    temperature = (T + 273) * openmm.unit.kelvin
-    friction = 1 / openmm.unit.picosecond
+    def __init__(self, T, dt: float = 1):
+        fs = openmm.unit.femtoseconds
+        self.dt = dt * fs
+        self.T = (T + 273) * openmm.unit.kelvin
+        self.check_freq: int = 1000
+        self.friction = 1 / openmm.unit.picosecond
 
-    topology = openmm_app.PDBFile(topology_path)
+    def load(self, work_path: str):
+        work_path = Path(work_path)
+        system_path = work_path / Path('system.xml')
+        topology_path = work_path / Path('top.pdb')
+        pdb = openmm_app.PDBFile(topology_path.as_posix())
+        topology, positions = pdb.topology, pdb.positions
 
-    with open(system_path, 'w') as system_file:
-        system: openmm.System = openmm.XmlSerializer.deserialize(system_file.read())
-    # ADD forces
-    system.addForce(openmm.CMMotionRemover())
+        with open(system_path.as_posix(), 'r') as system_file:
+            system: openmm.System = openmm.XmlSerializer.deserialize(system_file.read())
 
-    integrator = openmm.LangevinIntegrator(temperature, friction, dt)
+        self.create(system=system, topology=topology, positions=positions)
 
-    platform = openmm.Platform.getPlatformByName('CUDA')
-    platformProperties = {'Precision': 'single'}
-    platformProperties["DeviceIndex"] = "0"
+    def create(self, system, topology, positions):
+        # ADD forces
+        system.addForce(openmm.CMMotionRemover())
 
-    simulation = openmm_app.Simulation(
-        topology=topology,
-        system=system,
-        integrator=integrator,
-        platform=platform,
-        platformProperties=platformProperties,
-    )
+        integrator = openmm.LangevinIntegrator(self.T, self.friction, self.dt)
 
-    equilibration_stage = _tqdm(iterable=range(1))
-    equilibration_stage.set_description_str('Equilibration')
-    simulation.minimizeEnergy()
-    simulation.context.setVelocitiesToTemperature(temperature)
-    simulation.context.reinitialize(preserveState=True)
-    for i in equilibration_stage:
-        simulation.step(1000)
+        platform = openmm.Platform.getPlatformByName('CUDA')
+        platformProperties = {'Precision': 'single'}
+        platformProperties["DeviceIndex"] = "0"
 
-    simulation.currentStep = 0
-    simulation.context.setVelocitiesToTemperature(temperature)
-    msdReporter = MSDReporter(check_freq, simulation, dt)
-    simulation.reporters.append(msdReporter)
-    return simulation, msdReporter
+        self.simulation = openmm_app.Simulation(
+            topology=topology,
+            system=system,
+            integrator=integrator,
+            platform=platform,
+            platformProperties=platformProperties,
+        )
+        self.simulation.context.setPositions(positions)
 
+    def equilibrate(self, steps: int = 1):
+        equilibration_stage = _tqdm(iterable=range(steps))
+        equilibration_stage.set_description_str('Equilibration')
+        self.simulation.minimizeEnergy()
+        self.simulation.context.setVelocitiesToTemperature(self.T)
+        self.simulation.context.reinitialize(preserveState=True)
+        for i in equilibration_stage:
+            self.simulation.step(self.check_freq)
 
-def simulate(
-    T: int,
-    work_path: Path,
-    result_dir: Path = Path('.'),
-):
-    system_path = work_path / Path('system.xml')
-    topology_path = work_path / Path('top.pdb')
+        self.simulation.currentStep = 0
+        self.simulation.context.setVelocitiesToTemperature(self.T)
+        self.msd_reporter = MSDReporter(self.check_freq, self.simulation, self.dt)
+        self.simulation.reporters.append(self.msd_reporter)
 
-    print('#' * 30, f'Temperature: {T:2} C')
-    simulation, reporter = create_simulation(
-        system_path=system_path,
-        topology_path=topology_path,
-        result_dir=result_dir,
-        dt=1,
-        check_freq=1000,
-        T=T,
-    )
-    product_cycle = _tqdm(iterable=range(10))
-    product_cycle.set_description_str('Product      ')
-    for i in product_cycle:
-        simulation.step(1000)
-    print()
-    return reporter
+    def simulate(self, cycles=10):
+        product_cycle = _tqdm(iterable=range(cycles))
+        product_cycle.set_description_str('Product      ')
+        for i in product_cycle:
+            self.simulation.step(1000)
+
+    def get_data(self):
+        return pd.DataFrame(self.msd_reporter.data)
