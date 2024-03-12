@@ -6,10 +6,6 @@ import openmm
 import openmm.app as openmm_app
 import pandas as pd
 from tqdm import tqdm as _tqdm
-from typing_extensions import Unpack
-
-from .base import MolNames
-from .boxer import Box
 
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
@@ -101,8 +97,10 @@ class Simulation:
         integrator = openmm.LangevinIntegrator(self.T, self.friction, self.dt)
 
         platform = openmm.Platform.getPlatformByName('CUDA')
-        platformProperties = {'Precision': 'single'}
-        platformProperties["DeviceIndex"] = "0"
+        platformProperties = {}
+        platformProperties['Precision'] = 'mixed'
+        # platformProperties["UseCpuPme"] = "true"
+        platformProperties['UseBlockingSync'] = 'true'
 
         self.simulation = openmm_app.Simulation(
             topology=topology,

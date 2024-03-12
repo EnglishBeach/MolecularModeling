@@ -1,9 +1,7 @@
 from pathlib import Path
 import os
-import openmm
-import openmm.app as openmm_app
 import pandas as pd
-from tools import base, simulator
+from tools import simulator
 
 
 def loop():
