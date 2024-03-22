@@ -3,7 +3,21 @@ from pathlib import Path
 from openff import interchange, toolkit, units
 from openff.interchange.components import _packmol as packmol
 
-from .base import OFF_MOLECULES, MolNames
+from .base import RD_MOLECULES, MolNames
+
+OFF_MOLECULES = {}
+for molecule_type, rdkit_mol in RD_MOLECULES.items():
+    mol = toolkit.Molecule.from_rdkit(rdkit_mol)
+    OFF_MOLECULES[molecule_type] = mol
+    mol.generate_conformers(n_conformers=1)
+    mol.name = molecule_type.value
+
+    for atom in mol.atoms:
+        atom.metadata["residue_name"] = molecule_type.value
+    mol.add_hierarchy_scheme(
+        iterator_name="residue",
+        uniqueness_criteria=["residue_name"],
+    )
 
 
 class Box:

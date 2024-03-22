@@ -13,6 +13,8 @@ def loop():
 
         print('#' * 30, f'{substance:10}: {int(x):<3}')
         for T in [15, 20, 25, 30, 40]:
+            if Path(f'{result_dir}/{T}.csv').exists():
+                continue
             print('#' * 20, 'Tempetature: ', T)
             sim = simulator.Simulation(T=T)
             sim.load(sim_path)
