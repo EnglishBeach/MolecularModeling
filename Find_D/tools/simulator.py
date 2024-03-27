@@ -6,6 +6,7 @@ import openmm
 import openmm.app as openmm_app
 import pandas as pd
 from tqdm import tqdm as _tqdm
+from openmm import unit
 
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
@@ -25,7 +26,7 @@ class MSDReporter:
         self.start_positions = {}
 
         self.residues = list({residue.name for residue in simulation.topology.residues()})
-        state0 = simulation.context.getState(getPositions=True, enforcePeriodicBox=False)
+        state0 = simulation.context.getState(getPositions=True, enforcePeriodicBox=True)
         atoms = list(simulation.topology.atoms())
         for residue_name in self.residues:
             atom_ids = [
@@ -77,11 +78,12 @@ class Simulation:
         self.T = (T + 273) * openmm.unit.kelvin
         self.check_freq: int = 1000
         self.friction = 1 / openmm.unit.picosecond
+        self.reporter = {}
 
     def load(self, work_path: str):
         work_path = Path(work_path)
-        system_path = work_path / Path('system.xml')
-        topology_path = work_path / Path('top.pdb')
+        system_path = work_path / 'system.xml'
+        topology_path = work_path / 'top.pdb'
         pdb = openmm_app.PDBFile(topology_path.as_posix())
         topology, positions = pdb.topology, pdb.positions
 
@@ -89,6 +91,12 @@ class Simulation:
             system: openmm.System = openmm.XmlSerializer.deserialize(system_file.read())
 
         self.create(system=system, topology=topology, positions=positions)
+
+    @property
+    def positions(self):
+        return self.simulation.context.getState(
+            getPositions=True, enforcePeriodicBox=True
+        ).getPositions()
 
     def create(self, system, topology, positions):
         # ADD forces
@@ -99,7 +107,6 @@ class Simulation:
         platform = openmm.Platform.getPlatformByName('CUDA')
         platformProperties = {}
         platformProperties['Precision'] = 'mixed'
-        # platformProperties["UseCpuPme"] = "true"
         platformProperties['UseBlockingSync'] = 'true'
 
         self.simulation = openmm_app.Simulation(
@@ -111,25 +118,67 @@ class Simulation:
         )
         self.simulation.context.setPositions(positions)
 
-    def equilibrate(self, steps: int = 1):
-        equilibration_stage = _tqdm(iterable=range(steps))
-        equilibration_stage.set_description_str('Equilibration')
-        self.simulation.minimizeEnergy()
+    def equilibrate(
+        self,
+        minimized_path: str,
+        steps: int = 1,
+        tolerance: float = 10,
+    ):
+        status = _tqdm(iterable=range(steps))
+        status.set_description_str('Energy minimization')
+        self.simulation.minimizeEnergy(
+            maxIterations=self.check_freq,
+            tolerance=tolerance * unit.kilojoules_per_mole / unit.nanometer,
+        )
+
+        status.set_description_str('Simple equilibration')
         self.simulation.context.setVelocitiesToTemperature(self.T)
         self.simulation.context.reinitialize(preserveState=True)
-        for i in equilibration_stage:
+        for i in status:
             self.simulation.step(self.check_freq)
-
         self.simulation.currentStep = 0
         self.simulation.context.setVelocitiesToTemperature(self.T)
-        self.msd_reporter = MSDReporter(self.check_freq, self.simulation, self.dt)
-        self.simulation.reporters.append(self.msd_reporter)
+
+        minimized_path: Path = Path(minimized_path)
+        minimized_path.mkdir(exist_ok=True, parents=True)
+        with open(minimized_path / 'Eq.pdb', 'w') as outfile:
+            openmm_app.PDBFile.writeFile(
+                self.simulation.topology,
+                self.positions,
+                file=outfile,
+                keepIds=True,
+            )
+
+    def start_product(self, out_path: str):
+        # ADD another forces
+        out_path: Path = Path(out_path)
+        out_path.mkdir(exist_ok=True, parents=True)
+
+        self.reporter['msd'] = MSDReporter(
+            self.check_freq,
+            self.simulation,
+            self.dt,
+        )
+
+        # self.reporter['dcd'] = openmm_app.DCDReporter(
+        #     file=(out_path / 'traj.dcd').as_posix(),
+        #     reportInterval=self.check_freq,
+        #     enforcePeriodicBox=True,
+        #     # append=True,
+        # )
+
+        self.reporter['xtc'] = openmm_app.XTCReporter(
+            file=(out_path / 'traj.xtc').as_posix(),
+            reportInterval=self.check_freq,
+            enforcePeriodicBox=True,
+        )
+        self.simulation.reporters.extend(list(self.reporter.values()))
 
     def simulate(self, cycles=10):
-        product_cycle = _tqdm(iterable=range(cycles))
-        product_cycle.set_description_str('Product      ')
-        for i in product_cycle:
-            self.simulation.step(1000)
+        status = _tqdm(iterable=range(cycles))
+        status.set_description_str('Product')
+        for i in status:
+            self.simulation.step(self.check_freq)
 
     def get_data(self):
-        return pd.DataFrame(self.msd_reporter.data)
+        return pd.DataFrame(self.reporter['msd'].data)

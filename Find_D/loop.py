@@ -17,7 +17,7 @@ def loop():
             sim = simulator.Simulation(T=T)
             sim.load(sim_path)
             sim.equilibrate(20)
-            sim.simulate(1000)
+            sim.start_product(1000)
             df: pd.DataFrame = sim.get_data()
             df.to_csv(f'{result_dir}/{T}.csv')
 
