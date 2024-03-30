@@ -1,7 +1,6 @@
-Simple_MD/test/oplsaa.ff
 __pycache__
-untitled.cdxml
-boxes_min/*
-Open_MM/result/system.pdb
-Open_MM/result/traj.dcd
-Open_MM/result/out.pdb
+
+*plots*
+systems*
+results*
+boxes*
