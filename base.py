@@ -17,7 +17,6 @@ RD_MOLECULES = {
     MolNames.butanol: Chem.MolFromSmiles("OCCCC"),
 }
 
-
 DATAS = {
     MolNames.butanol: [
         (100, 700),
