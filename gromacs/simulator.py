@@ -5,7 +5,6 @@ from openff import interchange, toolkit, units
 from openff.interchange.components import _packmol as packmol
 from openff.units import Quantity, unit
 
-import openmm
 from base import MolNames
 
 from . import configs
@@ -20,15 +19,26 @@ FF = toolkit.ForceField("openff_unconstrained-2.1.0.offxml")
 
 
 class Simulation:
-    mpi = 5
+    mpi = 4
     total_n = 200
 
     def __init__(self, workdir: Path, T, substance, x, rho):
-        self.substance = MolNames[substance]
         self.rho = rho
         self.x = x
         self.T = T + 273
-        self.substance = MolNames[substance]
+
+        if x == 1.0:
+            self.molecules = [MolNames.butanol]
+            self.n_molecules = [self.total_n]
+        elif x == 0.0:
+            self.molecules = [MolNames[substance]]
+            self.n_molecules = [self.total_n]
+        else:
+            self.molecules = [MolNames.butanol, MolNames[substance]]
+            self.n_molecules = [
+                int(self.x * self.total_n),
+                self.total_n - int(self.x * self.total_n),
+            ]
 
         self.WORK = workdir
         self.create_workspace()
@@ -41,13 +51,13 @@ class Simulation:
         self.em_config = configs.em(configs_path)
 
         self.NVT = workdir / '3NVT'
-        self.nvt_config = configs.nvt(configs_path, T=self.T, substance=self.substance)
+        self.nvt_config = configs.nvt(configs_path, T=self.T, compounds=self.molecules)
 
         self.NPT = workdir / '4NPT'
-        self.npt_config = configs.npt(configs_path, T=self.T, substance=self.substance)
+        self.npt_config = configs.npt(configs_path, T=self.T, compounds=self.molecules)
 
         self.MD = workdir / '5MD'
-        self.md_config = configs.md(configs_path, T=self.T, substance=self.substance)
+        self.md_config = configs.md(configs_path, T=self.T, compounds=self.molecules)
 
     def create_workspace(self):
         for stage in ['0configs', '1box', '2EM', '3NVT', '4NPT', '5MD']:
@@ -55,20 +65,14 @@ class Simulation:
             folder.mkdir(parents=True, exist_ok=True)
 
     def create_box(self):
-        total_n = self.total_n
-        solvent_n: int = int(self.x * total_n)
-        substance_n: int = int((1 - self.x) * total_n)
-
         g = units.unit.gram
         cm = units.unit.centimeter
         A = units.unit.angstrom
 
-        butanol = MOLECULES[MolNames.butanol]
-        substance = MOLECULES[self.substance]
         print('Pack')
         box = packmol.pack_box(
-            molecules=[butanol, substance],
-            number_of_copies=[solvent_n, substance_n],
+            molecules=[MOLECULES[mol] for mol in self.molecules],
+            number_of_copies=self.n_molecules,
             mass_density=self.rho * g / cm**3,
             tolerance=0.1 * A,
             box_shape=packmol.UNIT_CUBE,
@@ -77,7 +81,7 @@ class Simulation:
         inter = interchange.Interchange.from_smirnoff(
             force_field=FF,
             topology=box,
-            charge_from_molecules=[butanol, substance],
+            charge_from_molecules=[MOLECULES[mol] for mol in self.molecules],
         )
         print('Minimaze')
         inter.minimize(force_tolerance=Quantity(1.0, unit.kilojoule_per_mole / unit.nanometer))
@@ -86,6 +90,7 @@ class Simulation:
         self.top = self.RAW / 'box.top'
 
     def center(self):
+        print('*' * 20, ' Centering')
         command = f"""
 gmx -quiet  editconf \
 -f {self.RAW}/box.gro \
@@ -93,9 +98,12 @@ gmx -quiet  editconf \
 -c \
 -bt cubic
 """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
     def em(self):
+        print('*' * 20, ' EM')
         command = f"""
 gmx -quiet grompp \
 -f  {self.em_config} \
@@ -113,9 +121,12 @@ gmx -quiet mdrun \
 -pin on \
 -ntmpi {self.mpi}
 """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
     def nvt(self):
+        print('*' * 20, ' NVT')
         command = f"""
 gmx -quiet grompp \
 -f  {self.nvt_config} \
@@ -133,9 +144,12 @@ gmx -quiet mdrun \
 -pin on \
 -ntmpi {self.mpi}
 """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
     def npt(self):
+        print('*' * 20, ' NPT')
         command = f"""
 gmx -quiet grompp \
 -f  {self.npt_config} \
@@ -153,9 +167,12 @@ gmx -quiet mdrun \
 -pin on \
 -ntmpi {self.mpi}
     """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
     def md(self):
+        print('*' * 20, ' MD')
         command = f"""
 gmx -quiet grompp \
 -f  {self.md_config} \
@@ -173,30 +190,38 @@ gmx -quiet mdrun \
 -pin on \
 -ntmpi {self.mpi}
     """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
-    def result(self):
+    def summarize(self):
+        print('*' * 20, ' Resulting')
         command = f"""
 gmx -quiet select \
 -s {self.RAW}/box.gro \
 -select 0 \
 -on {self.MD}/index.ndx
 """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
         command = f"""
 gmx -quiet trjconv \
 -f {self.MD}/md.xtc \
--s {self.MD}/md.tpr \
+-s {self.MD}/system.tpr \
 -n {self.MD}/index.ndx \
 -center \
 -pbc nojump \
--o {self.WORK}/md.xtc
+-o {self.WORK}/traj.xtc
 """
-        os.system(command)
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()
 
         command = f"""
-cp {self.RAW}/box.gro {self.WORK}/box.gro
+cp {self.MD}/box.gro {self.WORK}/box.gro
 """
-        os.system(command)
-
+        res = os.system(command)
+        if res:
+            raise NotADirectoryError()

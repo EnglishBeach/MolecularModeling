@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from base import MolNames
 
 
@@ -30,7 +31,11 @@ DispCorr        = EnerPres  ; account for cut-off vdW scheme
     return configs_path / 'em.mdp'
 
 
-def nvt(configs_path: Path, substance: MolNames, T: int):
+def nvt(configs_path: Path, compounds: list[MolNames], T: int):
+    tau_ts = ' '.join(['0.1' for compound in compounds])
+    groups = ' '.join([compound.value for compound in compounds])
+    Ts = ' '.join([str(T) for compound in compounds])
+
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
@@ -67,9 +72,9 @@ fourierspacing          = 0.16      ; grid spacing for FFT
 
 ; Temperature coupling is on
 tcoupl                  = V-rescale             ; modified Berendsen thermostat
-tc-grps                 = BUT {substance.value}       ; two coupling groups - more accurate
-tau_t                   = 0.1     0.1           ; time constant, in ps
-ref_t                   = {T}     {T}           ; reference temperature, one for each group, in K
+tc-grps                 = {groups}       ; two coupling groups - more accurate
+tau_t                   = {tau_ts}       ; time constant, in ps
+ref_t                   = {Ts}           ; reference temperature, one for each group, in K
 
 ; Pressure coupling is off
 pcoupl                  = no        ; no pressure coupling in NVT
@@ -79,7 +84,7 @@ pbc                     = xyz       ; 3-D PBC
 
 ; group(s) for center of mass motion removal
 nstcomm                  = 10
-comm-grps                = BUT {substance.value}
+comm-grps                = {groups}
 
 ; Velocity generation
 gen_vel                 = yes       ; assign velocities from Maxwell distribution
@@ -91,7 +96,11 @@ gen_seed                = -1        ; generate a random seed
     return configs_path / 'nvt.mdp'
 
 
-def npt(configs_path: Path, substance: MolNames, T: int):
+def npt(configs_path: Path, compounds: list[MolNames], T: int):
+    tau_ts = ' '.join(['0.1' for compound in compounds])
+    groups = ' '.join([compound.value for compound in compounds])
+    Ts = ' '.join([str(T) for compound in compounds])
+
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
@@ -128,9 +137,9 @@ fourierspacing          = 0.16      ; grid spacing for FFT
 
 ; Temperature coupling is on
 tcoupl                  = V-rescale             ; modified Berendsen thermostat
-tc-grps                 = BUT {substance.value}   ; two coupling groups - more accurate
-tau_t                   = 0.1     0.1           ; time constant, in ps
-ref_t                   = {T}     {T}           ; reference temperature, one for each group, in K
+tc-grps                 = {groups}       ; two coupling groups - more accurate
+tau_t                   = {tau_ts}       ; time constant, in ps
+ref_t                   = {Ts}           ; reference temperature, one for each group, in K
 
 ; Pressure coupling is on
 pcoupl                  = Parrinello-Rahman     ; Pressure coupling on in NPT
@@ -145,7 +154,7 @@ pbc                     = xyz       ; 3-D PBC
 
 ; group(s) for center of mass motion removal
 nstcomm                  = 10
-comm-grps                = BUT {substance.value}
+comm-grps                = {groups}
 
 ; Velocity generation
 gen_vel                 = no        ; Velocity generation is off
@@ -155,11 +164,14 @@ gen_vel                 = no        ; Velocity generation is off
     return configs_path / 'npt.mdp'
 
 
-def md(configs_path: Path, substance: MolNames, T: int):
+def md(configs_path: Path, compounds: list[MolNames], T: int):
+    tau_ts = ' '.join(['0.1' for compound in compounds])
+    groups = ' '.join([compound.value for compound in compounds])
+    Ts = ' '.join([str(T) for compound in compounds])
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 200000
+nsteps                  = 2000
 dt                      = 0.002     ; 2 fs
 
 ; Output control
@@ -191,9 +203,9 @@ fourierspacing          = 0.16      ; grid spacing for FFT
 
 ; Temperature coupling is on
 tcoupl                  = V-rescale             ; modified Berendsen thermostat
-tc-grps                 = BUT {substance.value}   ; two coupling groups - more accurate
-tau_t                   = 0.1     0.1           ; time constant, in ps
-ref_t                   = {T}     {T}           ; reference temperature, one for each group, in K
+tc-grps                 = {groups}       ; two coupling groups - more accurate
+tau_t                   = {tau_ts}       ; time constant, in ps
+ref_t                   = {Ts}           ; reference temperature, one for each group, in K
 
 ; Pressure coupling is on
 pcoupl                  = Parrinello-Rahman     ; Pressure coupling on in NPT
@@ -213,7 +225,7 @@ gen_vel                 = no        ; Velocity generation is off
 
 ; group(s) for center of mass motion removal
 nstcomm                  = 10
-comm-grps                = BUT {substance.value}
+comm-grps                = {groups}
 """
     with open(configs_path / 'md.mdp', 'w') as config_file:
         config_file.write(config)
