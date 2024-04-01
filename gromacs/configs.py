@@ -39,7 +39,7 @@ def nvt(configs_path: Path, compounds: list[MolNames], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 10000     ; 1 * 1000 * 10 = 10 ps
+nsteps                  = 30000     ; 1 * 1000 * 10 = 10 ps
 dt                      = 0.001     ; 1 fs
 
 ; Output control
@@ -104,7 +104,7 @@ def npt(configs_path: Path, compounds: list[MolNames], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 10000     ; 1 * 1000 * 10 = 10 ps
+nsteps                  = 30000     ; 1 * 1000 * 10 = 10 ps
 dt                      = 0.001     ; 1 fs
 
 ; Output control
@@ -153,7 +153,7 @@ refcoord_scaling        = com
 pbc                     = xyz       ; 3-D PBC
 
 ; group(s) for center of mass motion removal
-nstcomm                  = 10
+nstcomm                  = 100
 comm-grps                = {groups}
 
 ; Velocity generation
@@ -171,7 +171,7 @@ def md(configs_path: Path, compounds: list[MolNames], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 2000
+nsteps                  = 200000
 dt                      = 0.002     ; 2 fs
 
 ; Output control
@@ -224,7 +224,7 @@ DispCorr                = EnerPres  ; account for cut-off vdW scheme
 gen_vel                 = no        ; Velocity generation is off
 
 ; group(s) for center of mass motion removal
-nstcomm                  = 10
+nstcomm                  = 100
 comm-grps                = {groups}
 """
     with open(configs_path / 'md.mdp', 'w') as config_file:
