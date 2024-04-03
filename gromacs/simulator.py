@@ -74,7 +74,7 @@ class Simulation:
             molecules=[MOLECULES[mol] for mol in self.molecules],
             number_of_copies=self.n_molecules,
             mass_density=self.rho * g / cm**3,
-            tolerance=0.1 * A,
+            tolerance=0.2 * A,
             box_shape=packmol.UNIT_CUBE,
         )
         print('Parametrize')

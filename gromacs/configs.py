@@ -7,7 +7,7 @@ def em(configs_path: Path):
     config = """
 ; Parameters describing what to do, when to stop and what to save
 integrator  = steep         ; Algorithm (steep = steepest descent minimization)
-emtol       = 500.0         ; Stop minimization when the maximum force < 1000.0 J/mol/nm
+emtol       = 200.0         ; Stop minimization when the maximum force < 1000.0 J/mol/nm
 emstep      = 0.001         ; Minimization step size fs
 nsteps      = 5000           ; Maximum number of (minimization) steps to perform
 
@@ -83,7 +83,7 @@ pcoupl                  = no        ; no pressure coupling in NVT
 pbc                     = xyz       ; 3-D PBC
 
 ; group(s) for center of mass motion removal
-nstcomm                  = 10
+nstcomm                  = 100
 comm-grps                = {groups}
 
 ; Velocity generation
