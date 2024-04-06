@@ -3,7 +3,7 @@ import enum
 from rdkit import Chem
 
 
-class MolNames(enum.Enum):
+class Mols(enum.Enum):
     butanol = 'BUT'
     ocm = 'OCM'
     dmag = 'DMA'
@@ -11,27 +11,27 @@ class MolNames(enum.Enum):
 
 
 RD_MOLECULES = {
-    MolNames.ocm: Chem.MolFromSmiles("CC(C(OCCOC(OCCOCCOC(OCCOC(C(C)=C)=O)=O)=O)=O)=C"),
-    MolNames.dmag: Chem.MolFromSmiles("C=C(C)C(OCCOC(C(C)=C)=O)=O"),
-    MolNames.peta: Chem.MolFromSmiles("C=CC(OCC(COC(C=C)=O)(COC(C=C)=O)CO)=O"),
-    MolNames.butanol: Chem.MolFromSmiles("OCCCC"),
+    Mols.ocm: Chem.MolFromSmiles("CC(C(OCCOC(OCCOCCOC(OCCOC(C(C)=C)=O)=O)=O)=O)=C"),
+    Mols.dmag: Chem.MolFromSmiles("C=C(C)C(OCCOC(C(C)=C)=O)=O"),
+    Mols.peta: Chem.MolFromSmiles("C=CC(OCC(COC(C=C)=O)(COC(C=C)=O)CO)=O"),
+    Mols.butanol: Chem.MolFromSmiles("OCCCC"),
 }
 
 DATAS = {
-    MolNames.butanol: [
+    Mols.butanol: [
         (100, 700),
     ],
-    MolNames.dmag: [
+    Mols.dmag: [
         (0, 1069),
         (11, 1069),
         (22, 1050),
         (35, 1029),
         (39, 1019),
     ],
-    MolNames.ocm: [
-        (0, 1720 - 300),
-        (12, 1580 - 300),
-        (22, 1569 - 300),
+    Mols.ocm: [
+        (0, 1720),
+        (12, 1580),
+        (22, 1569),
         (31, 1550),
         (38, 1539),
         (44, 1530),
@@ -39,7 +39,7 @@ DATAS = {
         (54, 1489),
         (58, 1490),
     ],
-    MolNames.peta: [
+    Mols.peta: [
         (0, 1200),
         (19, 1180),
         (30, 1159),

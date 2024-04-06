@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from base import MolNames
+from base import Mols
 
 
 def em(configs_path: Path):
@@ -31,7 +31,7 @@ DispCorr        = EnerPres  ; account for cut-off vdW scheme
     return configs_path / 'em.mdp'
 
 
-def nvt(configs_path: Path, compounds: list[MolNames], T: int):
+def nvt(configs_path: Path, compounds: list[Mols], T: int):
     tau_ts = ' '.join(['0.1' for compound in compounds])
     groups = ' '.join([compound.value for compound in compounds])
     Ts = ' '.join([str(T) for compound in compounds])
@@ -96,7 +96,7 @@ gen_seed                = -1        ; generate a random seed
     return configs_path / 'nvt.mdp'
 
 
-def npt(configs_path: Path, compounds: list[MolNames], T: int):
+def npt(configs_path: Path, compounds: list[Mols], T: int):
     tau_ts = ' '.join(['0.1' for compound in compounds])
     groups = ' '.join([compound.value for compound in compounds])
     Ts = ' '.join([str(T) for compound in compounds])
@@ -164,7 +164,7 @@ gen_vel                 = no        ; Velocity generation is off
     return configs_path / 'npt.mdp'
 
 
-def md(configs_path: Path, compounds: list[MolNames], T: int):
+def md(configs_path: Path, compounds: list[Mols], T: int):
     tau_ts = ' '.join(['0.1' for compound in compounds])
     groups = ' '.join([compound.value for compound in compounds])
     Ts = ' '.join([str(T) for compound in compounds])

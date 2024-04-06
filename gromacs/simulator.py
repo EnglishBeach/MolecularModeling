@@ -5,7 +5,7 @@ from openff import interchange, toolkit, units
 from openff.interchange.components import _packmol as packmol
 from openff.units import Quantity, unit
 
-from base import MolNames
+from base import Mols
 
 from . import configs
 
@@ -13,7 +13,7 @@ MOLECULES = {}
 for mol_path in os.listdir('Compounds'):
     mol_path = Path(mol_path)
     mol = toolkit.Molecule.from_file(f'Compounds/{mol_path}')
-    MOLECULES[MolNames[mol_path.stem]] = mol
+    MOLECULES[Mols[mol_path.stem]] = mol
 
 FF = toolkit.ForceField("openff_unconstrained-2.1.0.offxml")
 
@@ -28,13 +28,13 @@ class Simulation:
         self.T = T + 273
 
         if x == 1.0:
-            self.molecules = [MolNames.butanol]
+            self.molecules = [Mols.butanol]
             self.n_molecules = [self.total_n]
         elif x == 0.0:
-            self.molecules = [MolNames[substance]]
+            self.molecules = [Mols[substance]]
             self.n_molecules = [self.total_n]
         else:
-            self.molecules = [MolNames.butanol, MolNames[substance]]
+            self.molecules = [Mols.butanol, Mols[substance]]
             self.n_molecules = [
                 int(self.x * self.total_n),
                 self.total_n - int(self.x * self.total_n),
