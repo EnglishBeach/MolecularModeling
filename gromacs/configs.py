@@ -104,8 +104,8 @@ def npt(configs_path: Path, compounds: list[MolNames], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 30000     ; 1 * 1000 * 10 = 10 ps
-dt                      = 0.001     ; 1 fs
+nsteps                  = 300000     ; 1 * 1000 * 10 = 10 ps
+dt                      = 0.00001     ; 1 fs
 
 ; Output control
 nstxout                 = 0         ; suppress bulky .trr file by specifying
@@ -125,14 +125,14 @@ lincs_order             = 4         ; also related to accuracy
 
 ; Nonbonded settings
 cutoff-scheme           = Verlet    ; Buffered neighbor searching
-nstlist                 = 20        ; 20 fs, largely irrelevant with Verlet scheme
+nstlist                 = 2        ; 20 fs, largely irrelevant with Verlet scheme
 rcoulomb                = 1.2       ; short-range electrostatic cutoff (in nm)
 rvdw                    = 1.2       ; short-range van der Waals cutoff (in nm)
 DispCorr                = EnerPres  ; account for cut-off vdW scheme
 
 ; Electrostatics
 coulombtype             = PME       ; Particle Mesh Ewald for long-range electrostatics
-pme_order               = 4         ; cubic interpolation
+pme_order               = 3         ; cubic interpolation
 fourierspacing          = 0.16      ; grid spacing for FFT
 
 ; Temperature coupling is on
