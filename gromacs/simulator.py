@@ -25,7 +25,7 @@ class Simulation:
     def __init__(self, workdir: Path, T, substance, x, rho):
         self.rho = rho
         self.x = x
-        self.T = T + 273
+        self.T = T + 273.15
 
         if x == 1.0:
             self.molecules = [Mols.butanol]

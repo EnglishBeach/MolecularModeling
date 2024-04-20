@@ -7,9 +7,9 @@ def em(configs_path: Path):
     config = """
 ; Parameters describing what to do, when to stop and what to save
 integrator  = steep         ; Algorithm (steep = steepest descent minimization)
-emtol       = 200.0         ; Stop minimization when the maximum force < 1000.0 J/mol/nm
+emtol       = 100.0         ; Stop minimization when the maximum force < 1000.0 J/mol/nm
 emstep      = 0.001         ; Minimization step size fs
-nsteps      = 5000           ; Maximum number of (minimization) steps to perform
+nsteps      = 50000           ; Maximum number of (minimization) steps to perform
 
 ; Parameters describing how to find the neighbors of each atom and how to calculate the interactions
 nstlist         = 1         ; Frequency to update the neighbor list and long range forces
@@ -39,16 +39,16 @@ def nvt(configs_path: Path, compounds: list[Mols], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 30000     ; 1 * 1000 * 10 = 10 ps
+nsteps                  = 50000     ; 500 ps
 dt                      = 0.001     ; 1 fs
 
 ; Output control
 nstxout                 = 0        ; suppress bulky .trr file by specifying
 nstvout                 = 0         ; 0 for output frequency of nstxout,
 nstfout                 = 0         ; nstvout, and nstfout
-nstenergy               = 1000      ; save energies every 1.0 ps
-nstlog                  = 1000      ; update log file every 1.0 ps
-nstxout-compressed      = 1000      ; save compressed coordinates every 2.0 ps
+nstenergy               = 10000      ; save energies every 1.0 ps
+nstlog                  = 10000      ; update log file every 1.0 ps
+nstxout-compressed      = 10000      ; save compressed coordinates every 2.0 ps
 compressed-x-grps       = System    ; save the whole system
 
 ; Bond parameters
@@ -103,17 +103,17 @@ def npt(configs_path: Path, compounds: list[Mols], T: int):
 
     config = f"""
 ; Run parameters
-integrator              = md        ; leap-frog integrator
-nsteps                  = 300000     ; 1 * 1000 * 10 = 10 ps
-dt                      = 0.00001     ; 1 fs
+integrator              = md          ; leap-frog integrator
+nsteps                  = 500000    ; 500 ps
+dt                      = 0.0001     ; 1 fs
 
 ; Output control
 nstxout                 = 0         ; suppress bulky .trr file by specifying
 nstvout                 = 0         ; 0 for output frequency of nstxout,
 nstfout                 = 0         ; nstvout, and nstfout
-nstenergy               = 1000      ; save energies every 1.0 ps
-nstlog                  = 1000      ; update log file every 1.0 ps
-nstxout-compressed      = 1000      ; save compressed coordinates every 1.0 ps
+nstenergy               = 10000      ; save energies every 1.0 ps
+nstlog                  = 10000      ; update log file every 1.0 ps
+nstxout-compressed      = 10000      ; save compressed coordinates every 1.0 ps
 compressed-x-grps       = System    ; save the whole system
 
 ; Bond parameters
@@ -125,7 +125,7 @@ lincs_order             = 4         ; also related to accuracy
 
 ; Nonbonded settings
 cutoff-scheme           = Verlet    ; Buffered neighbor searching
-nstlist                 = 2        ; 20 fs, largely irrelevant with Verlet scheme
+nstlist                 = 2         ; 20 fs, largely irrelevant with Verlet scheme
 rcoulomb                = 1.2       ; short-range electrostatic cutoff (in nm)
 rvdw                    = 1.2       ; short-range van der Waals cutoff (in nm)
 DispCorr                = EnerPres  ; account for cut-off vdW scheme
@@ -171,16 +171,16 @@ def md(configs_path: Path, compounds: list[Mols], T: int):
     config = f"""
 ; Run parameters
 integrator              = md        ; leap-frog integrator
-nsteps                  = 200000
-dt                      = 0.002     ; 2 fs
+nsteps                  = 5000000
+dt                      = 0.001     ; 2 fs
 
 ; Output control
 nstxout                 = 0      ; suppress bulky .trr file by specifying
 nstvout                 = 0         ; 0 for output frequency of nstxout,
 nstfout                 = 0         ; nstvout, and nstfout
-nstenergy               = 1000      ; save energies every 2.0 ps
-nstlog                  = 1000      ; update log file every 2.0 ps
-nstxout-compressed      = 1000      ; save compressed coordinates every 2.0 ps
+nstenergy               = 10000      ; save energies every 2.0 ps
+nstlog                  = 10000      ; update log file every 2.0 ps
+nstxout-compressed      = 10000      ; save compressed coordinates every 2.0 ps
 compressed-x-grps       = System    ; save the whole system
 
 ; Bond parameters
